@@ -13,7 +13,7 @@ const NFTMinter = ({ metadata, metadataIpfsHash, addLog, tokenId, setTokenId }) 
   const [isMinting, setIsMinting] = useState(false);
   const [txHash, setTxHash] = useState('');
  
-  // remova a linha:
+  // remova a linha: 
   // const [tokenId, setTokenId] = useState('');
 
   const [recipientAddress, setRecipientAddress] = useState('');
