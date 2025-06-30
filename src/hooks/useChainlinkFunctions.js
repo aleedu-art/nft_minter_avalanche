@@ -51,7 +51,10 @@ export const useChainlinkFunctions = () => {
       console.log('🔑 Subscription ID:', CONTRACTS.SUBSCRIPTION_ID);
 
       const donHostedSecretsSlotID = 0; // slotId
-     // const donHostedSecretsVersion = 1751066415; // version - MUDAR A CADA DOIS DIAS PORQUE VENCE 
+      // 20250628
+      // const donHostedSecretsVersion = 1751066415; // version - MUDAR A CADA DOIS DIAS PORQUE VENCE 
+      
+      //20250630
       const donHostedSecretsVersion = 1751315377; // version - MUDAR A CADA DOIS DIAS PORQUE VENCE 
 
       // Construir URL completa do IPFS
