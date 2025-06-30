@@ -18,8 +18,9 @@ const NFTMinter = ({ metadata, metadataIpfsHash, addLog, tokenId, setTokenId }) 
 
   const [recipientAddress, setRecipientAddress] = useState('');
   //const [contractAddress, setContractAddress] = useState('0x...');
-  const [contractAddress, setContractAddress] = useState('0x322b94B67d4Ce89bA8fF061c6f527273a22654A8');
-   
+ // const [contractAddress, setContractAddress] = useState('0x322b94B67d4Ce89bA8fF061c6f527273a22654A8');
+  // MyNFT_FUJI.sol
+  const [contractAddress, setContractAddress] = useState('0x8d0c0E8515D236644F65A9152a3445987cE817b6'); 
   const isValidAddress = (address) => {
     return /^0x[a-fA-F0-9]{40}$/.test(address);
   };
@@ -312,16 +313,16 @@ const NFTMinter = ({ metadata, metadataIpfsHash, addLog, tokenId, setTokenId }) 
             </Alert>
           )}
 
-          {/* Configurações */}
+          {/* Configurações MyNFT_FUJI.sol */}
           <div className="space-y-4" >
             <div >
-              <Label htmlFor="contractAddress" style={{ display: 'none' }}>0x322b94B67d4Ce89bA8fF061c6f527273a22654A8</Label>
+              <Label htmlFor="contractAddress" style={{ display: 'none' }}>0x8d0c0E8515D236644F65A9152a3445987cE817b6</Label>
               <Label htmlFor="contractAddress" >Contrato</Label>
               <Input
                 id="contractAddress"
                 value={contractAddress}
                 onChange={(e) => setContractAddress(e.target.value)}
-                placeholder="0x322b94B67d4Ce89bA8fF061c6f527273a22654A8"
+                placeholder="0x8d0c0E8515D236644F65A9152a3445987cE817b6"
                 className="font-mono"
               />
             </div>

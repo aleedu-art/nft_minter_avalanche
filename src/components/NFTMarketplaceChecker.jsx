@@ -75,7 +75,7 @@ const NFTMarketplaceChecker = ({ tokenId, setTokenId }) => {
         </p>
       </div>
 
-      {/* Formulário de Busca */}
+      {/* Formulário de Busca MyNFT_FUJI.sol */}
       <div className="bg-gray-50 p-4 rounded-lg mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
@@ -86,7 +86,7 @@ const NFTMarketplaceChecker = ({ tokenId, setTokenId }) => {
               type="text"
               value={contractAddress}
               onChange={(e) => setContractAddress(e.target.value)}
-              placeholder="0x322b94B67d4Ce89bA8fF061c6f527273a22654A8"
+              placeholder="0x8d0c0E8515D236644F65A9152a3445987cE817b6"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
