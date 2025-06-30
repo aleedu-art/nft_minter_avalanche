@@ -238,7 +238,7 @@ const ChainlinkAnalysis = ({
       {/* Resultados da análise */}
       {analysisData && (
         <div className="mb-4 p-4 bg-green-50 rounded">
-          <h4 className="font-semibold text-green-800 mb-3">Resultados da Análise:</h4>
+          <h4 className="font-semibold text-green-800 mb-3">Resultados da Análise de Sentimentos:</h4>
           <div className="space-y-2 text-sm">
             <div>
               <span className="font-medium text-green-700">Sentimento:</span>
@@ -268,7 +268,7 @@ const ChainlinkAnalysis = ({
       {(lastResponse || lastError) && (
         <details className="mb-4">
           <summary className="cursor-pointer text-sm text-gray-600 hover:text-gray-800">
-            Dados técnicos (debug)
+            Dados técnicos (Hexadecimal)
           </summary>
           <div className="mt-2 p-3 bg-gray-50 rounded text-xs">
             {lastResponse && lastResponse !== '0x' && (

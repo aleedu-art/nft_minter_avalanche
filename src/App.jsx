@@ -155,11 +155,13 @@ function AppContent() {
            setTokenId={setTokenId}  // <<< NOVO
           />
 
-          {/* NFT Marketplace Checker */}
+          {false && (
             <NFTMarketplaceChecker 
-             tokenId={tokenId}    // <<< NOVO
-             setTokenId={setTokenId}
-           />
+              tokenId={tokenId}
+              setTokenId={setTokenId}
+            />
+          )}
+
 
           {/* Debug Console */}
           <DebugConsole
