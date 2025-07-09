@@ -124,6 +124,10 @@ const ChainlinkAnalysis = ({
         if (newTime <= 0) {
           console.log('✅ Contador finalizado, iniciando polling...');
           clearInterval(interval);
+
+          //20250706
+        //  stopWaitingTimer();
+
           setWaitingInterval(null);
           setStatus('polling');
           startPolling();
@@ -136,6 +140,8 @@ const ChainlinkAnalysis = ({
 
     setWaitingInterval(interval);
   };
+ 
+
 
   const stopWaitingTimer = () => {
     if (waitingInterval) {
@@ -400,6 +406,7 @@ const ChainlinkAnalysis = ({
             Pular Espera (Debug)
           </button>
         )}
+
 
         {status === 'polling' && (
           <button
