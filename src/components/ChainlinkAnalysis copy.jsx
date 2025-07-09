@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useChainlinkFunctions } from '../hooks/useChainlinkFunctions';
 import { useAccount } from 'wagmi';
 
@@ -13,12 +13,12 @@ const ChainlinkAnalysis = ({
   const [attempts, setAttempts] = useState(0);
   const [status, setStatus] = useState('idle'); // idle, analyzing, waiting, polling, completed, error
   
+  // Estados para o contador de 2 minutos
   const [waitingInterval, setWaitingInterval] = useState(null);
   const [remainingTime, setRemainingTime] = useState(0);
   const WAIT_TIME = 120; // 2 minutos em segundos
   
-  const skipButtonRef = useRef(null); 
-  
+  // Armazenar o hash da transação atual para verificação
   const [currentTransactionHash, setCurrentTransactionHash] = useState(null);
   const [lastProcessedHash, setLastProcessedHash] = useState(null);
   
@@ -43,7 +43,7 @@ const ChainlinkAnalysis = ({
     if (ipfsHash && isConnected && status === 'idle') {
       handleStartAnalysis();
     }
-  }, [ipfsHash, isConnected, status]);
+  }, [ipfsHash, isConnected]);
 
   // Monitorar confirmação da transação para iniciar contador de 2 minutos
   useEffect(() => {
@@ -60,6 +60,7 @@ const ChainlinkAnalysis = ({
   // Monitorar dados de análise para completar (com verificação de hash)
   useEffect(() => {
     if (analysisData && status === 'polling' && currentTransactionHash) {
+      // Só aceitar dados se for uma nova análise (diferente da última processada)
       if (currentTransactionHash !== lastProcessedHash) {
         console.log('🎉 Nova análise completada:', analysisData);
         console.log('📝 Hash da transação processada:', currentTransactionHash);
@@ -72,7 +73,7 @@ const ChainlinkAnalysis = ({
         console.log('⚠️ Dados antigos detectados, continuando polling...');
       }
     }
-  }, [analysisData, status, currentTransactionHash, lastProcessedHash, onAnalysisComplete]);
+  }, [analysisData, status, currentTransactionHash, lastProcessedHash]);
 
   // Monitorar erros
   useEffect(() => {
@@ -83,30 +84,7 @@ const ChainlinkAnalysis = ({
       stopWaitingTimer();
       onAnalysisError?.(analysisError || writeError);
     }
-  }, [analysisError, writeError, status, onAnalysisError]);
-
-  // useEffect para o auto-clique do botão
-  useEffect(() => {
-    let autoClickTimerId;
-
-    if (status === 'waiting') {
-      console.log('⏳ Auto-clique agendado em 60 segundos se o botão for visível...');
-      autoClickTimerId = setTimeout(() => {
-        if (skipButtonRef.current) {
-          console.log('⏰ 60 segundos se passaram. Auto-clicando no botão "Pular Espera"...');
-          skipButtonRef.current.click(); 
-        }
-      }, 60000); 
-    }
-
-    // Função de limpeza para evitar múltiplos temporizadores
-    return () => {
-      if (autoClickTimerId) {
-        clearTimeout(autoClickTimerId);
-        console.log('🛑 Temporizador de auto-clique limpo.');
-      }
-    };
-  }, [status]); 
+  }, [analysisError, writeError, status]);
 
   const handleStartAnalysis = async () => {
     if (!ipfsHash) {
@@ -121,6 +99,7 @@ const ChainlinkAnalysis = ({
 
     console.log(`🚀 Iniciando análise para IPFS: ${ipfsHash}`);
     
+    // Limpar completamente dados antigos
     console.log('🧹 Limpando dados antigos da análise...');
     
     setStatus('analyzing');
@@ -146,9 +125,12 @@ const ChainlinkAnalysis = ({
           console.log('✅ Contador finalizado, iniciando polling...');
           clearInterval(interval);
 
+          //20250706
+        //  stopWaitingTimer();
+
           setWaitingInterval(null);
           setStatus('polling');
-          startPolling(); 
+          startPolling();
           return 0;
         }
         
@@ -158,7 +140,9 @@ const ChainlinkAnalysis = ({
 
     setWaitingInterval(interval);
   };
-  
+ 
+
+
   const stopWaitingTimer = () => {
     if (waitingInterval) {
       clearInterval(waitingInterval);
@@ -170,6 +154,7 @@ const ChainlinkAnalysis = ({
   const startPolling = () => {
     console.log('🔄 Iniciando polling para resultados...');
     
+    // Limpar dados antigos antes de iniciar polling
     console.log('🧹 Limpando dados antigos...');
     
     let currentAttempt = 0;
@@ -185,7 +170,7 @@ const ChainlinkAnalysis = ({
       if (result.success) {
         console.log('✅ Resultado encontrado:', result.data);
         stopPolling();
-      } else if (currentAttempt >= 20) { 
+      } else if (currentAttempt >= 20) { // Máximo 20 tentativas (2 minutos)
         console.log('⏰ Timeout: máximo de tentativas atingido');
         setStatus('error');
         stopPolling();
@@ -209,7 +194,6 @@ const ChainlinkAnalysis = ({
     setStatus('idle');
     setAttempts(0);
     setCurrentTransactionHash(null);
-    setLastProcessedHash(null); 
     stopPolling();
     stopWaitingTimer();
     if (ipfsHash) {
@@ -411,7 +395,6 @@ const ChainlinkAnalysis = ({
 
         {status === 'waiting' && (
           <button
-            ref={skipButtonRef} 
             onClick={() => {
               console.log('⏭️ Pulando tempo de espera...');
               stopWaitingTimer();
@@ -423,6 +406,7 @@ const ChainlinkAnalysis = ({
             Pular Espera (Debug)
           </button>
         )}
+
 
         {status === 'polling' && (
           <button
